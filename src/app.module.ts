@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
@@ -18,6 +19,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       synchronize: true, // en producción no, cuando se realiza un cambio se sincroniza
     }),
     UsersModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
