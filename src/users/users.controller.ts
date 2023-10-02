@@ -39,4 +39,9 @@ export class UsersController {
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
   }
+
+  @Delete('deactivate/:id')
+  desactivateUser(@Param('id') id: string) {
+    return this.usersService.desactivate(id);
+  }
 }

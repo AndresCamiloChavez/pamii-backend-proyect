@@ -1,4 +1,6 @@
 import {
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   Entity,
   JoinTable,
@@ -31,5 +33,13 @@ export class User {
 
   @Column({ name: 'isActive', type: 'bool', default: true })
   isActive: boolean;
-  
+
+  @BeforeInsert()
+  checkFieldsBeforeInsert() {
+    this.email = this.email.toLowerCase().trim();
+  }
+  @BeforeUpdate()
+  checkFieldsBerforeUpdate() {
+    this.checkFieldsBeforeInsert();
+  }
 }
