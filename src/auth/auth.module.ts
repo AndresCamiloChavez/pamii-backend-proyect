@@ -7,8 +7,7 @@ import { AuthService } from './auth.service';
 import { UsersModule } from 'src/users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
-import { User } from 'src/users/entities/user.entity';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import * as nodemailer from 'nodemailer';
 
 @Module({
   imports: [
@@ -30,7 +29,24 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    {
+      provide: 'MAILER',
+      useFactory: async () => {
+        return nodemailer.createTransport({
+          host: 'smtp.gmail.com', // Cambia esto al servidor SMTP que estás utilizando
+          port: 587,
+          secure: false, // true para SSL
+          auth: {
+            user: process.env.EMAIL_SEND,
+            pass: process.env.SECRET_EMAIL,
+          },
+        });
+      },
+    },
+  ],
   exports: [JwtStrategy, PassportModule, JwtModule],
 })
 export class AuthModule {}

@@ -34,6 +34,12 @@ export class User {
   @Column({ name: 'isActive', type: 'bool', default: true })
   isActive: boolean;
 
+  @Column({ nullable: true })
+  resetCode: string;
+
+  @Column({ type: 'bigint', nullable: true })
+  resetCodeTimestamp: number;
+
   @BeforeInsert()
   checkFieldsBeforeInsert() {
     this.email = this.email.toLowerCase().trim();

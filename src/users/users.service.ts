@@ -11,7 +11,7 @@ import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { MessageDefault } from 'src/common/helpers/message-default.interface';
-
+import { RecoverPassword } from 'src/auth/interfaces/recoverPassword';
 @Injectable()
 export class UsersService {
   constructor(
@@ -54,7 +54,6 @@ export class UsersService {
 
   async findOne(id: string) {
     const user = await this.userRepository.findOneBy({ id });
-    console.log(user);
     if (!user) throw new NotFoundException('No existe el usuario');
     return user;
   }
@@ -62,12 +61,34 @@ export class UsersService {
   findOneEmail(email: string) {
     return this.userRepository.findOne({
       where: { email },
-      select: { email: true, password: true, id: true }, // para traer esos datos
+      select: {
+        email: true,
+        password: true,
+        id: true,
+        resetCode: true,
+        resetCodeTimestamp: true,
+      }, // para traer esos datos
     });
+  }
+
+  async recoverPasswordUser(recoverPassword: RecoverPassword) {
+    const user = await this.findOneEmail(recoverPassword.email);
+    if (!user) throw new NotFoundException('No existe el usuario');
+    if (user.resetCode != recoverPassword.code)
+      throw new NotFoundException('Código de restablecimiento inválido');
+    user.password = bcrypt.hashSync(recoverPassword.password, 10);
+    user.resetCode = null;
+    user.resetCodeTimestamp = null;
+    const userRecover = this.userRepository.save(user);
+    return userRecover;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
+  }
+
+  async updateUser(updateUser: User) {
+    return await this.userRepository.save(updateUser);
   }
 
   remove(id: number) {

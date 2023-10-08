@@ -5,7 +5,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { CommonModule } from './common/common.module';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -24,6 +23,8 @@ import { CommonModule } from './common/common.module';
     CommonModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    
+  ],
 })
 export class AppModule {}
