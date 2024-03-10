@@ -5,8 +5,10 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Role } from '../../common/entities/role.entity';
 
 @Entity()
 export class User {
@@ -39,6 +41,9 @@ export class User {
 
   @Column({ type: 'bigint', nullable: true })
   resetCodeTimestamp: number;
+
+  // @ManyToOne(() => Role, role => role.users)
+  // role: Role;
 
   @BeforeInsert()
   checkFieldsBeforeInsert() {

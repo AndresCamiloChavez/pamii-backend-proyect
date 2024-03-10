@@ -1,32 +1,28 @@
 import {
-  IsArray,
-  IsBoolean,
-  IsEmail,
-  IsNotEmpty,
-  IsOptional,
   IsString,
-  Matches,
-  MaxLength,
+  IsEmail,
   MinLength,
+  MaxLength,
+  Matches,
+  IsOptional,
+  IsBoolean,
 } from 'class-validator';
 
-export class CreateUserDto {
+export class CreateBusinessDto {
   @IsString()
-  firstName: string;
+  name: string;
 
   @IsString()
-  lastName: string;
+  description: string;
 
   @IsString()
-  phone: string;
-
-  //definir formato
-  @IsString()
-  birthDay: string;
+  urlLogo: string;
 
   @IsString()
-  @IsEmail()
-  email: string;
+  urlFrontPage: string;
+
+  @IsString()
+  address: string;
 
   @IsString()
   @MinLength(6)
@@ -37,16 +33,11 @@ export class CreateUserDto {
   })
   password: string;
 
+  @IsString()
+  @IsEmail()
+  email: string;
 
   @IsOptional()
   @IsBoolean()
   isActive?: boolean = true;
-  // @IsArray()
-  // roles: number[];
-}
-
-export class CreateRoleDto {
-  @IsString()
-  @IsNotEmpty()
-  name: string;
 }

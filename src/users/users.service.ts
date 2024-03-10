@@ -12,6 +12,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { MessageDefault } from 'src/common/helpers/message-default.interface';
 import { RecoverPassword } from 'src/auth/interfaces/recoverPassword';
+import { handleDBErrors } from 'src/common/helpers/handle-db-errors';
 @Injectable()
 export class UsersService {
   constructor(
@@ -44,7 +45,7 @@ export class UsersService {
       delete newUser.password;
       return newUser;
     } catch (error) {
-      this.handleDBErrors(error);
+      handleDBErrors(error);
     }
   }
 
@@ -106,9 +107,5 @@ export class UsersService {
     return messageResponse;
   }
 
-  private handleDBErrors(error: any): never {
-    if (error.code === '23505') throw new BadRequestException(error.detail);
-    console.log(error);
-    throw new InternalServerErrorException('Please check server logs');
-  }
+
 }
