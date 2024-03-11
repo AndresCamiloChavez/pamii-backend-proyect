@@ -40,4 +40,7 @@ export class CreateBusinessDto {
   @IsOptional()
   @IsBoolean()
   isActive?: boolean = true;
+
+  role: string;
+
 }

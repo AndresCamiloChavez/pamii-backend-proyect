@@ -6,6 +6,8 @@ import { AuthModule } from './auth/auth.module';
 import { CommonModule } from './common/common.module';
 import { BusinessModule } from './business/business.module';
 import { SeedModule } from './seed/seed.module';
+import { RoleSeederService } from './subscribers/initial-data.subscriber';
+import { Role } from './common/entities/role.entity';
 
 @Module({
   imports: [
@@ -20,6 +22,7 @@ import { SeedModule } from './seed/seed.module';
       autoLoadEntities: true,
       synchronize: true, // en producción no, cuando se realiza un cambio se sincroniza
     }),
+    TypeOrmModule.forFeature([Role]),
     UsersModule,
     AuthModule,
     CommonModule,
@@ -27,8 +30,6 @@ import { SeedModule } from './seed/seed.module';
     SeedModule,
   ],
   controllers: [],
-  providers: [
-    
-  ],
+  providers: [RoleSeederService],
 })
 export class AppModule {}

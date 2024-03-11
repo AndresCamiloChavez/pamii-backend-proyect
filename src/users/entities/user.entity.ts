@@ -42,8 +42,8 @@ export class User {
   @Column({ type: 'bigint', nullable: true })
   resetCodeTimestamp: number;
 
-  // @ManyToOne(() => Role, role => role.users)
-  // role: Role;
+  @ManyToOne(() => Role, role => role.users)
+  role: Role;
 
   @BeforeInsert()
   checkFieldsBeforeInsert() {

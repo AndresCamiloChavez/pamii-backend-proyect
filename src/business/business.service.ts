@@ -6,16 +6,25 @@ import { CreateBusinessDto } from './dto/create-business.dto';
 import * as bcrypt from 'bcrypt';
 import { handleDBErrors } from 'src/common/helpers/handle-db-errors';
 import { MessageDefault } from 'src/common/helpers/message-default.interface';
+import { Role, Roles } from 'src/common/entities/role.entity';
 
 @Injectable()
 export class BusinessService {
   constructor(
     @InjectRepository(Business)
     private readonly businessRepository: Repository<Business>,
+    @InjectRepository(Role)
+    private readonly roleRepository: Repository<Role>,
   ) {}
 
   async create(createBusinessDto: CreateBusinessDto) {
     try {
+      const role = await this.roleRepository.findOneBy({ id:  Roles.ADMINISTRATOR_NEGOCIO });
+
+      if (!role) {
+        throw new Error('Role not found');
+      }
+
       const {
         name,
         description,
@@ -25,6 +34,7 @@ export class BusinessService {
         password,
         email,
         isActive,
+
       } = createBusinessDto;
 
       const newBusiness = this.businessRepository.create({
@@ -36,6 +46,7 @@ export class BusinessService {
         email,
         password: bcrypt.hashSync(password, 10), // encriptando la contraseña
         isActive,
+        role
       });
       await this.businessRepository.save(newBusiness);
       delete newBusiness.password;

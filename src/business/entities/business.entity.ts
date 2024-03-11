@@ -37,8 +37,8 @@ export class Business {
   @Column({ name: 'email', type: 'text', unique: true })
   email: string;
 
-//   @ManyToOne(() => Role, (role) => role.users)
-//   role: Role;
+  @ManyToOne(() => Role, (role) => role.business)
+  role: Role;
 
   @BeforeInsert()
   checkFieldsBeforeInsert() {
