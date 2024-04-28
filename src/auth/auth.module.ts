@@ -20,7 +20,7 @@ import * as nodemailer from 'nodemailer';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         return {
-          secret: configService.get('JWT_SECRET'),
+          secret: "PamiIToKenSr3t0Key",
           signOptions: {
             expiresIn: '2h',
           },
@@ -40,8 +40,8 @@ import * as nodemailer from 'nodemailer';
           port: 587,
           secure: false, // true para SSL
           auth: {
-            user: process.env.EMAIL_SEND,
-            pass: process.env.SECRET_EMAIL,
+            user: "camiloandresramirezchavez@gmail.com",
+            pass: "nih lkje fxyj drkg",
           },
         });
       },

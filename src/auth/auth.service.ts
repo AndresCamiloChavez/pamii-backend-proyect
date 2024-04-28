@@ -47,6 +47,12 @@ export class AuthService {
   async sendCodeRecoverPassword(bodyEmail: { email: string }) {
     let user = await this.userService.findOneEmail(bodyEmail.email);
 
+    if (!user) {
+      throw new NotFoundException(
+        'Usuario no encontrado con el email proporcionado',
+      );
+    }
+
     user.resetCode = generateRandomCode();
     user.resetCodeTimestamp = Date.now();
     await this.userService.updateUser(user);

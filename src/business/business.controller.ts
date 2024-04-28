@@ -1,8 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { CreateBusinessDto } from './dto/create-business.dto';
 import { BusinessService } from './business.service';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('business')
+@UseGuards(AuthGuard('jwt'))
 export class BusinessController {
   constructor(private readonly businessService: BusinessService) {}
 

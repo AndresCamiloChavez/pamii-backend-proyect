@@ -8,19 +8,23 @@ import { BusinessModule } from './business/business.module';
 import { SeedModule } from './seed/seed.module';
 import { RoleSeederService } from './subscribers/initial-data.subscriber';
 import { Role } from './common/entities/role.entity';
+import { ServiceModule } from './service/service.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DB_HOST,
-      port: +process.env.DB_PORT,
-      database: process.env.DB_NAME,
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
+      host: "pamiidb.postgres.database.azure.com",
+      port: 5432,
+      database: "postgres",
+      username: "postgres",
+      password: "1eZ7Ow3cIOvJCm7",
       autoLoadEntities: true,
       synchronize: true, // en producción no, cuando se realiza un cambio se sincroniza
+      ssl: {
+        rejectUnauthorized: false
+      }
     }),
     TypeOrmModule.forFeature([Role]),
     UsersModule,
@@ -28,6 +32,7 @@ import { Role } from './common/entities/role.entity';
     CommonModule,
     BusinessModule,
     SeedModule,
+    ServiceModule,
   ],
   controllers: [],
   providers: [RoleSeederService],

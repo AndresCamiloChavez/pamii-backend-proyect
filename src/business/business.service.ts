@@ -37,6 +37,9 @@ export class BusinessService {
 
       } = createBusinessDto;
 
+      
+      //!validar email
+
       const newBusiness = this.businessRepository.create({
         name,
         description,
@@ -61,13 +64,13 @@ export class BusinessService {
   }
   async findOne(id: string) {
     const business = await this.businessRepository.findOneBy({ id });
-    if (!business) throw new NotFoundException('No existe el usuario');
+    if (!business) throw new NotFoundException('No existe el neogocio');
     return business;
   }
 
   async desactivate(idBusiness: string) {
     const business = await this.findOne(idBusiness);
-    if (!business) throw new NotFoundException('Usuario no existe');
+    if (!business) throw new NotFoundException('Negocio no existe');
     business.isActive = false;
     const businessDesactivate = await this.businessRepository.save(business);
     const messageResponse: MessageDefault = {
