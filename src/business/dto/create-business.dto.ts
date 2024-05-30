@@ -16,13 +16,16 @@ export class CreateBusinessDto {
   description: string;
 
   @IsString()
-  urlLogo: string;
+  @IsOptional()
+  urlLogo?: string;
 
   @IsString()
-  urlFrontPage: string;
+  @IsOptional()
+  urlFrontPage?: string;
 
   @IsString()
-  address: string;
+  @IsOptional()
+  address?: string;
 
   @IsString()
   @MinLength(6)

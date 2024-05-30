@@ -19,13 +19,13 @@ export class Business {
   @Column({ name: 'description', type: 'text' })
   description: string;
 
-  @Column({ name: 'urlLogo', type: 'text' })
+  @Column({ name: 'urlLogo', type: 'text', nullable: true})
   urlLogo: string;
 
-  @Column({ name: 'urlFrontPage', type: 'text' })
+  @Column({ name: 'urlFrontPage', type: 'text', nullable: true})
   urlFrontPage: string;
 
-  @Column({ name: 'address', type: 'text' })
+  @Column({ name: 'address', type: 'text', nullable: true })
   address: string;
 
   @Column({ name: 'isActive', type: 'bool', default: true })
