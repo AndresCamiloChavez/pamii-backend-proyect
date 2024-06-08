@@ -41,7 +41,7 @@ import * as nodemailer from 'nodemailer';
           secure: false, // true para SSL
           auth: {
             user: "camiloandresramirezchavez@gmail.com",
-            pass: "nih lkje fxyj drkg",
+            pass: "blbz fbom qqwz hutx",
           },
         });
       },
