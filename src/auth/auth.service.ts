@@ -83,7 +83,15 @@ export class AuthService {
       El Equipo de Soporte de Pamii`,
       html: '',
     };
-    await this.sendEmail(emailContent);
+    try {
+      await this.sendEmail(emailContent);
+      const messageResponse: MessageDefault = {
+        message: 'Código enviado',
+      };
+      return messageResponse
+    } catch (error) {
+      throw new NotFoundException('Código no enviando');
+    }
   }
 
   async verificationCode(bodyCode: CodeVerification) {

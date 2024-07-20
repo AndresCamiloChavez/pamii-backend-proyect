@@ -75,8 +75,6 @@ export class UsersService {
   async recoverPasswordUser(recoverPassword: RecoverPassword) {
     const user = await this.findOneEmail(recoverPassword.email);
     if (!user) throw new NotFoundException('No existe el usuario');
-    if (user.resetCode != recoverPassword.code)
-      throw new NotFoundException('Código de restablecimiento inválido');
     user.password = bcrypt.hashSync(recoverPassword.password, 10);
     user.resetCode = null;
     user.resetCodeTimestamp = null;
