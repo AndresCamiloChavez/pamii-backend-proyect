@@ -58,6 +58,16 @@ export class BusinessService {
       handleDBErrors(error);
     }
   }
+  findOneEmail(email: string) {
+    return this.businessRepository.findOne({
+      where: { email },
+      select: {
+        email: true,
+        password: true,
+        id: true,
+      }, // para traer esos datos
+    });
+  }
 
   findAll() {
     return this.businessRepository.find();

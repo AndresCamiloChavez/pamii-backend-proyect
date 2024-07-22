@@ -8,11 +8,13 @@ import { UsersModule } from 'src/users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import * as nodemailer from 'nodemailer';
+import { BusinessModule } from 'src/business/business.module';
 
 @Module({
   imports: [
     ConfigModule,
     UsersModule,
+    BusinessModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       // son modulos asincrónos para que cargen primero las variables de entorno
@@ -20,7 +22,7 @@ import * as nodemailer from 'nodemailer';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         return {
-          secret: "PamiIToKenSr3t0Key",
+          secret: 'PamiIToKenSr3t0Key',
           signOptions: {
             expiresIn: '2h',
           },
@@ -40,8 +42,8 @@ import * as nodemailer from 'nodemailer';
           port: 587,
           secure: false, // true para SSL
           auth: {
-            user: "camiloandresramirezchavez@gmail.com",
-            pass: "blbz fbom qqwz hutx",
+            user: 'camiloandresramirezchavez@gmail.com',
+            pass: 'blbz fbom qqwz hutx',
           },
         });
       },

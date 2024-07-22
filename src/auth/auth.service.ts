@@ -22,11 +22,13 @@ import {
   RecoverPassword,
 } from './interfaces/recoverPassword';
 import { MessageDefault } from 'src/common/helpers/message-default.interface';
+import { BusinessService } from '../business/business.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UsersService,
+    private readonly businessService: BusinessService,
     private readonly jwtService: JwtService,
     @Inject('MAILER') private readonly mailer: Transporter,
   ) {}
@@ -35,13 +37,33 @@ export class AuthService {
     const { password, email } = loginUserDto;
 
     let user = await this.userService.findOneEmail(email);
-    if (!user) throw new UnauthorizedException('Credenciales invalidas');
-    if (!bcrypt.compareSync(password, user.password))
+
+    let business;
+
+    if (user == null) {
+      business = await this.businessService.findOneEmail(email);
+    }
+
+    if (!user && !business)
       throw new UnauthorizedException('Credenciales invalidas');
 
-    user = await this.userService.findOne(user.id);
-    delete user.password;
-    return { user: { ...user }, token: this.getJwtToken({ id: user.id }) };
+    if (user != null) {
+      if (!bcrypt.compareSync(password, user.password))
+        throw new UnauthorizedException('Credenciales invalidas');
+      user = await this.userService.findOne(user.id);
+      delete user.password;
+      return { user: { ...user }, token: this.getJwtToken({ id: user.id }) };
+    }
+    if (!!business != null) {
+      if (!bcrypt.compareSync(password, business.password))
+        throw new UnauthorizedException('Credenciales invalidas');
+      business = await this.businessService.findOne(business.id);
+      delete business.password;
+      return {
+        business: { ...business },
+        token: this.getJwtToken({ id: business.id }),
+      };
+    }
   }
 
   async sendCodeRecoverPassword(bodyEmail: { email: string }) {
@@ -88,7 +110,7 @@ export class AuthService {
       const messageResponse: MessageDefault = {
         message: 'Código enviado',
       };
-      return messageResponse
+      return messageResponse;
     } catch (error) {
       throw new NotFoundException('Código no enviando');
     }

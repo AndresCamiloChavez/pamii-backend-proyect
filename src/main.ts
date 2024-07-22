@@ -13,7 +13,7 @@ async function bootstrap() {
       forbidNonWhitelisted: true
     })
   );
-  await app.listen(3000, '192.168.0.11');
+  await app.listen(3000, '192.168.1.4');
   logger.log(`Running on ${3000}`)         
 }
 bootstrap();
